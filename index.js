@@ -25,7 +25,3 @@ app.post("/actions", function (req, res) {
   res.send('actions')
   console.log("afdfasdfds");
 });
-
-app.listen(port, () => {
-  console.log("App listening on port " + port);
-});
