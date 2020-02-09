@@ -19,7 +19,3 @@ app.listen(3000, function () {
   console.log('Connected 3000 port!');
 });
 
-app.listen(80, function(){
-  console.log('this is 80 port!');
-})
-
