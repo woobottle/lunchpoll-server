@@ -20,7 +20,7 @@ app.listen(3000, function () {
 });
 
 
-app.post("/actions", urlencodedParser, (req, res) => {
+app.post("/actions", function (req, res) {
   res.status(200).end(); 
   res.send('actions')
   console.log("afdfasdfds");
