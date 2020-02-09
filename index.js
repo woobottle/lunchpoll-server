@@ -1,5 +1,8 @@
 var express = require('express');
+var request = require('request');
+var bodyParser = require('body-parser');
 var app = express();
+var urlencodedParser = bodyParser.urlencoded({ extended: false})
 app.unsubscribe(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.set('view engine', 'jade');
@@ -13,49 +16,53 @@ app.use(express.static('public'));
 
 app.post("/", function(req, res, next) {
   console.log(req.body)
-  res.json(`{
-	"blocks": [
-		{
-			"type": "section",
-			"text": {
-				"type": "mrkdwn",
-				"text": "Danny Torrence left the following review for your property:"
-			}
-		},
-		{
-			"type": "section",
-			"block_id": "section567",
-			"text": {
-				"type": "mrkdwn",
-				"text": "<https://example.com|Overlook Hotel> \n :star: \n Doors had too many axe holes, guest in room 237 was far too rowdy, whole place felt stuck in the 1920s."
-			},
-			"accessory": {
-				"type": "image",
-				"image_url": "https://is5-ssl.mzstatic.com/image/thumb/Purple3/v4/d3/72/5c/d3725c8f-c642-5d69-1904-aa36e4297885/source/256x256bb.jpg",
-				"alt_text": "Haunted hotel image"
-			}
-		},
-		{
-			"type": "section",
-			"text": {
-				"type": "mrkdwn",
-				"text": "You can add a button alongside text in your message. "
-			},
-			"accessory": {
-				"type": "button",
-				"text": {
-					"type": "plain_text",
-					"text": "Button",
-					"emoji": true
-				},
-				"value": "click_me_123"
-			}
-		}
-	]
-}`);
+  res.json(req.body)
   // res.send(req.body);
 });
 
+app.post("/slack/slash-commands/send-me-buttons", urlencodedParser, (req, res) => {
+res.status(200).end() // best practice to respond with empty 200 status code
+    var reqBody = req.body
+    var responseURL = reqBody.response_url
+    if (reqBody.token != YOUR_APP_VERIFICATION_TOKEN){
+        res.status(403).end("Access forbidden")
+    }else{
+        var message = {
+            "text": "This is your first interactive message",
+            "attachments": [
+                {
+                    "text": "Building buttons is easy right?",
+                    "fallback": "Shame... buttons aren't supported in this land",
+                    "callback_id": "button_tutorial",
+                    "color": "#3AA3E3",
+                    "attachment_type": "default",
+                    "actions": [
+                        {
+                            "name": "yes",
+                            "text": "yes",
+                            "type": "button",
+                            "value": "yes"
+                        },
+                        {
+                            "name": "no",
+                            "text": "no",
+                            "type": "button",
+                            "value": "no"
+                        },
+                        {
+                            "name": "maybe",
+                            "text": "maybe",
+                            "type": "button",
+                            "value": "maybe",
+                            "style": "danger"
+                        }
+                    ]
+                }
+            ]
+        }
+        sendMessageToSlackResponseURL(responseURL, message)
+    }
+});
 
 app.get('/form', function (req, res) {
   res.render('form');
@@ -83,4 +90,33 @@ app.post("/actions", function (req, res) {
 
 app.listen(3000, function() {
   console.log("Connected 3000 port!");
+});
+
+function sendMessageToSlackResponseURL(responseURL, JSONmessage) {
+  var postOptions = {
+    uri: responseURL,
+    method: "POST",
+    headers: {
+      "Content-type": "application/json"
+    },
+    json: JSONmessage
+  };
+  request(postOptions, (error, response, body) => {
+    if (error) {
+      // handle errors as you see fit
+    }
+  });
+}
+
+app.post("/slack/actions", urlencodedParser, (req, res) => {
+  res.status(200).end(); // best practice to respond with 200 status
+  var actionJSONPayload = JSON.parse(req.body.payload); // parse URL-encoded payload JSON string
+  var message = {
+    text:
+      actionJSONPayload.user.name +
+      " clicked: " +
+      actionJSONPayload.actions[0].name,
+    replace_original: false
+  };
+  sendMessageToSlackResponseURL(actionJSONPayload.response_url, message);
 });
