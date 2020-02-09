@@ -19,3 +19,12 @@ app.listen(3000, function () {
   console.log('Connected 3000 port!');
 });
 
+
+app.post("/actions", urlencodedParser, (req, res) => {
+  res.status(200).end(); 
+  res.send('actions')
+});
+
+app.listen(port, () => {
+  console.log("App listening on port " + port);
+});
