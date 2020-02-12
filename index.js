@@ -17,10 +17,11 @@ app.use(express.static('public'));
 app.post("/", urlencodedParser, function(req, res) {
   res.status(200).end()
   var reqBody = req.body;
+  console.log(reqBody);
   var responseURL = reqBody.response_url;
-  var first = reqBody.split(' ')[0]
-  var second = reqBody.split(' ')[1]
-  var third = reqBody.split(' ')[2]
+  var first = reqBody.text.split(' ')[0]
+  var second = reqBody.text.split(' ')[1]
+  var third = reqBody.text.split(' ')[2]
   
   var message = {
     text: "This is your first interactive message",
