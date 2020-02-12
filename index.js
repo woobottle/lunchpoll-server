@@ -21,115 +21,113 @@ app.post("/", urlencodedParser, function(req, res) {
   var message = {
     text: "This is your first interactive message",
     blocks: [
-      [
-        {
-          type: "section",
-          text: {
-            type: "mrkdwn",
-            text: "*오늘 뭐먹지?* Poll by <fakeLink.toUser.com|WooBottle>"
-          }
-        },
-        {
-          type: "divider"
-        },
-        {
-          type: "section",
-          text: {
-            type: "mrkdwn",
-            text:
-              "*Ace Wasabi Rock-n-Roll Sushi Bar*\nThe best landlocked sushi restaurant."
-          },
-          accessory: {
-            type: "button",
-            text: {
-              type: "plain_text",
-              emoji: true,
-              text: "Vote"
-            },
-            value: "click_me_123"
-          }
-        },
-        {
-          type: "context",
-          elements: [
-            {
-              type: "plain_text",
-              emoji: true,
-              text: "No votes"
-            }
-          ]
-        },
-        {
-          type: "section",
-          text: {
-            type: "mrkdwn",
-            text:
-              "*Super Hungryman Hamburgers*\nOnly for the hungriest of the hungry."
-          },
-          accessory: {
-            type: "button",
-            text: {
-              type: "plain_text",
-              emoji: true,
-              text: "Vote"
-            },
-            value: "click_me_123"
-          }
-        },
-        {
-          type: "context",
-          elements: [
-            {
-              type: "plain_text",
-              emoji: true,
-              text: "No votes"
-            }
-          ]
-        },
-        {
-          type: "section",
-          text: {
-            type: "mrkdwn",
-            text:
-              "*Kagawa-Ya Udon Noodle Shop*\nDo you like to shop for noodles? We have noodles."
-          },
-          accessory: {
-            type: "button",
-            text: {
-              type: "plain_text",
-              emoji: true,
-              text: "Vote"
-            },
-            value: "click_me_123"
-          }
-        },
-        {
-          type: "context",
-          elements: [
-            {
-              type: "mrkdwn",
-              text: "No votes"
-            }
-          ]
-        },
-        {
-          type: "divider"
-        },
-        {
-          type: "actions",
-          elements: [
-            {
-              type: "button",
-              text: {
-                type: "plain_text",
-                emoji: true,
-                text: "Add a suggestion"
-              },
-              value: "click_me_123"
-            }
-          ]
+      {
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: "*오늘 뭐먹지?* Poll by <fakeLink.toUser.com|WooBottle>"
         }
-      ]
+      },
+      {
+        type: "divider"
+      },
+      {
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text:
+            "*Ace Wasabi Rock-n-Roll Sushi Bar*\nThe best landlocked sushi restaurant."
+        },
+        accessory: {
+          type: "button",
+          text: {
+            type: "plain_text",
+            emoji: true,
+            text: "Vote"
+          },
+          value: "click_me_123"
+        }
+      },
+      {
+        type: "context",
+        elements: [
+          {
+            type: "plain_text",
+            emoji: true,
+            text: "No votes"
+          }
+        ]
+      },
+      {
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text:
+            "*Super Hungryman Hamburgers*\nOnly for the hungriest of the hungry."
+        },
+        accessory: {
+          type: "button",
+          text: {
+            type: "plain_text",
+            emoji: true,
+            text: "Vote"
+          },
+          value: "click_me_123"
+        }
+      },
+      {
+        type: "context",
+        elements: [
+          {
+            type: "plain_text",
+            emoji: true,
+            text: "No votes"
+          }
+        ]
+      },
+      {
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text:
+            "*Kagawa-Ya Udon Noodle Shop*\nDo you like to shop for noodles? We have noodles."
+        },
+        accessory: {
+          type: "button",
+          text: {
+            type: "plain_text",
+            emoji: true,
+            text: "Vote"
+          },
+          value: "click_me_123"
+        }
+      },
+      {
+        type: "context",
+        elements: [
+          {
+            type: "mrkdwn",
+            text: "No votes"
+          }
+        ]
+      },
+      {
+        type: "divider"
+      },
+      {
+        type: "actions",
+        elements: [
+          {
+            type: "button",
+            text: {
+              type: "plain_text",
+              emoji: true,
+              text: "Add a suggestion"
+            },
+            value: "click_me_123"
+          }
+        ]
+      }
     ]
   };
   sendMessageToSlackResponseURL(responseURL, message);
