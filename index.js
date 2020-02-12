@@ -20,7 +20,7 @@ app.post("/", function(req, res, next) {
   // res.send(req.body);
 });
 
-app.post("/slack/slash-commands/send-me-buttons", urlencodedParser, (req, res) => {
+app.post("/send-me-buttons", urlencodedParser, (req, res) => {
 res.status(200).end() // best practice to respond with empty 200 status code
     var reqBody = req.body
     var responseURL = reqBody.response_url
@@ -108,7 +108,7 @@ function sendMessageToSlackResponseURL(responseURL, JSONmessage) {
   });
 }
 
-app.post("/slack/actions", urlencodedParser, (req, res) => {
+app.post("/actions", urlencodedParser, (req, res) => {
   res.status(200).end(); // best practice to respond with 200 status
   var actionJSONPayload = JSON.parse(req.body.payload); // parse URL-encoded payload JSON string
   var message = {
