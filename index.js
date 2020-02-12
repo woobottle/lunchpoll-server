@@ -18,6 +18,7 @@ app.post("/", urlencodedParser, function(req, res) {
   res.status(200).end()
   var reqBody = req.body;
   var responseURL = reqBody.response_url;
+  console.log(reqBody)
   var message = {
     text: "This is your first interactive message",
     blocks: [
