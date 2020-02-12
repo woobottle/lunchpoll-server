@@ -10,15 +10,15 @@ app.set('views', './views');
 app.use(express.static('public'));
 
 //사용자가 get 방식으로 접속한걸 잡기 위해서
-app.get('/', function (req, res) {
-  res.send('Hello home page');
-});
-
-// app.post("/", function(req, res, next) {
-//   console.log(req.body)
-//   res.json(req.body)
-//   // res.send(req.body);
+// app.get('/', function (req, res) {
+//   res.send('Hello home page');
 // });
+
+app.post("/", function(req, res, next) {
+  console.log(req.body)
+  res.json(req.body)
+  // res.send(req.body);
+});
 
 app.post("/slack/slash-commands/send-me-buttons", urlencodedParser, (req, res) => {
 res.status(200).end() // best practice to respond with empty 200 status code
