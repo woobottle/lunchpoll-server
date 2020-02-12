@@ -14,50 +14,161 @@ app.use(express.static('public'));
 //   res.send('Hello home page');
 // });
 
-app.post("/", function(req, res, next) {
-  console.log(req.body)
-  res.json(req.body)
-  // res.send(req.body);
+app.post("/", urlencodedParser, function(req, res) {
+  res.status(200).end()
+  debugger
+  var reqBody = req.body;
+  var responseURL = reqBody.response_url;
+  var message = {
+    text: "This is your first interactive message",
+    attachments: [
+      {
+        "type": "section",
+        "text": {
+          "type": "mrkdwn",
+          "text": "*오늘 뭐먹지?* Poll by <fakeLink.toUser.com|WooBottle>"
+        }
+      },
+      {
+        "type": "divider"
+      },
+      {
+        "type": "section",
+        "text": {
+          "type": "mrkdwn",
+          "text": "*Ace Wasabi Rock-n-Roll Sushi Bar*\nThe best landlocked sushi restaurant."
+        },
+        "accessory": {
+          "type": "button",
+          "text": {
+            "type": "plain_text",
+            "emoji": true,
+            "text": "Vote"
+          },
+          "value": "click_me_123"
+        }
+      },
+      {
+        "type": "context",
+        "elements": [
+          {
+            "type": "plain_text",
+            "emoji": true,
+            "text": "No votes"
+          }
+        ]
+      },
+      {
+        "type": "section",
+        "text": {
+          "type": "mrkdwn",
+          "text": "*Super Hungryman Hamburgers*\nOnly for the hungriest of the hungry."
+        },
+        "accessory": {
+          "type": "button",
+          "text": {
+            "type": "plain_text",
+            "emoji": true,
+            "text": "Vote"
+          },
+          "value": "click_me_123"
+        }
+      },
+      {
+        "type": "context",
+        "elements": [
+          {
+            "type": "plain_text",
+            "emoji": true,
+            "text": "No votes"
+          }
+        ]
+      },
+      {
+        "type": "section",
+        "text": {
+          "type": "mrkdwn",
+          "text": "*Kagawa-Ya Udon Noodle Shop*\nDo you like to shop for noodles? We have noodles."
+        },
+        "accessory": {
+          "type": "button",
+          "text": {
+            "type": "plain_text",
+            "emoji": true,
+            "text": "Vote"
+          },
+          "value": "click_me_123"
+        }
+      },
+      {
+        "type": "context",
+        "elements": [
+          {
+            "type": "mrkdwn",
+            "text": "No votes"
+          }
+        ]
+      },
+      {
+        "type": "divider"
+      },
+      {
+        "type": "actions",
+        "elements": [
+          {
+            "type": "button",
+            "text": {
+              "type": "plain_text",
+              "emoji": true,
+              "text": "Add a suggestion"
+            },
+            "value": "click_me_123"
+          }
+        ]
+      }
+    ]
+  };
+  sendMessageToSlackResponseURL(responseURL, message);
 });
 
 app.post("/send-me-buttons", urlencodedParser, (req, res) => {
-res.status(200).end() // best practice to respond with empty 200 status code
-    var reqBody = req.body
-    var responseURL = reqBody.response_url
-    var message = {
-        "text": "This is your first interactive message",
-        "attachments": [
-            {
-                "text": "Building buttons is easy right?",
-                "fallback": "Shame... buttons aren't supported in this land",
-                "callback_id": "button_tutorial",
-                "color": "#3AA3E3",
-                "attachment_type": "default",
-                "actions": [
-                    {
-                        "name": "yes",
-                        "text": "yes",
-                        "type": "button",
-                        "value": "yes"
-                    },
-                    {
-                        "name": "no",
-                        "text": "no",
-                        "type": "button",
-                        "value": "no"
-                    },
-                    {
-                        "name": "maybe",
-                        "text": "maybe",
-                        "type": "button",
-                        "value": "maybe",
-                        "style": "danger"
-                    }
-                ]
-            }
-        ]
-    }
-    sendMessageToSlackResponseURL(responseURL, message)
+  res.status(200).end() // best practice to respond with empty 200 status code
+  var reqBody = req.body
+  var responseURL = reqBody.response_url
+  var message = {
+      "text": "This is your first interactive message",
+      "attachments": [
+          {
+              "text": "Building buttons is easy right?",
+              "fallback": "Shame... buttons aren't supported in this land",
+              "callback_id": "button_tutorial",
+              "color": "#3AA3E3",
+              "attachment_type": "default",
+              "actions": [
+                  {
+                      "name": "yes",
+                      "text": "yes",
+                      "type": "button",
+                      "value": "yes"
+                  },
+                  {
+                      "name": "no",
+                      "text": "no",
+                      "type": "button",
+                      "value": "no"
+                  },
+                  {
+                      "name": "maybe",
+                      "text": "maybe",
+                      "type": "button",
+                      "value": "maybe",
+                      "style": "danger"
+                  }
+              ]
+          }
+      ]
+  }
+  sendMessageToSlackResponseURL(responseURL, message)
     
 });
 
@@ -77,13 +188,6 @@ app.post('/form_receiver', function(req, res, next){
 app.get('/topic', function (req, res) {
   res.send(req.query.id);
 })
-
-app.post("/actions", function (req, res) {
-  // res.status(200).end(); 
-  // res.json({ok: true});
-  res.send('actions')
-  console.log("afdfasdfds");
-});
 
 app.listen(3000, function() {
   console.log("Connected 3000 port!");
