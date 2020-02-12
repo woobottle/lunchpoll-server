@@ -16,7 +16,6 @@ app.use(express.static('public'));
 
 app.post("/", urlencodedParser, function(req, res) {
   res.status(200).end()
-  debugger
   var reqBody = req.body;
   var responseURL = reqBody.response_url;
   var message = {
