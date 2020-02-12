@@ -18,7 +18,10 @@ app.post("/", urlencodedParser, function(req, res) {
   res.status(200).end()
   var reqBody = req.body;
   var responseURL = reqBody.response_url;
-  console.log(reqBody)
+  var first = reqBody.split(' ')[0]
+  var second = reqBody.split(' ')[1]
+  var third = reqBody.split(' ')[2]
+  
   var message = {
     text: "This is your first interactive message",
     blocks: [
@@ -37,7 +40,7 @@ app.post("/", urlencodedParser, function(req, res) {
         text: {
           type: "mrkdwn",
           text:
-            "*Ace Wasabi Rock-n-Roll Sushi Bar*\nThe best landlocked sushi restaurant."
+            first
         },
         accessory: {
           type: "button",
@@ -64,7 +67,7 @@ app.post("/", urlencodedParser, function(req, res) {
         text: {
           type: "mrkdwn",
           text:
-            "*Super Hungryman Hamburgers*\nOnly for the hungriest of the hungry."
+            second
         },
         accessory: {
           type: "button",
@@ -91,7 +94,7 @@ app.post("/", urlencodedParser, function(req, res) {
         text: {
           type: "mrkdwn",
           text:
-            "*Kagawa-Ya Udon Noodle Shop*\nDo you like to shop for noodles? We have noodles."
+            third
         },
         accessory: {
           type: "button",
