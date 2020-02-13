@@ -126,9 +126,9 @@ app.post("/actions", urlencodedParser, (req, res) => {
   var actionJSONPayload = JSON.parse(req.body.payload); // parse URL-encoded payload JSON string
   console.log(actionJSONPayload);
   console.log(actionJSONPayload.message.blocks)
-  actionJSONPayload.message.blocks[4].text.text = "123"
-
+  
   var message = {
+    request_url: "https://hooks.slack.com/actions/T03EB3HS3/938267588882/RCeTzXvD3dWupG08EUcel1z0",
     response_type: "in_channel",
     replace_original: "true",
     text:
