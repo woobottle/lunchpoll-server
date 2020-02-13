@@ -130,7 +130,7 @@ app.post("/actions", urlencodedParser, (req, res) => {
   var message = {
     request_url: "https://hooks.slack.com/actions/T03EB3HS3/938267588882/RCeTzXvD3dWupG08EUcel1z0",
     response_type: "in_channel",
-    replace_original: "true",
+    replace_original: true,
     text:
       actionJSONPayload.user.name +
       " clicked: " +
