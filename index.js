@@ -43,39 +43,13 @@ app.post("/", urlencodedParser, function(req, res) {
           text: first
         },
         accessory: {
-          "type": "block_actions",
-          "team": {
-            "id": "T0CAG",
-            "domain": "acme-creamery"
+          type: "button",
+          text: {
+            type: "plain_text",
+            emoji: true,
+            text: "Vote"
           },
-          "user": {
-            "id": "U0CA5",
-            "username": "Amy McGee",
-            "name": "Amy McGee",
-            "team_id": "T3MDE"
-          },
-          "api_app_id": "A0CA5",
-          "token": "Shh_its_a_seekrit",
-          "container": {
-            "type": "message",
-            "text": "The contents of the original message where the action originated"
-          },
-          "trigger_id": "12466734323.1395872398",
-          "response_url": "https://www.postresponsestome.com/T123567/1509734234",
-          "actions": [
-            {
-              "type": "button",
-              "block_id": "qX8",
-              "action_id": "tTSSV",
-              "text": {
-                "type": "plain_text",
-                "text": "Choose",
-                "emoji": true
-              },
-              "value": "click_me_123",
-              "action_ts": "1581605443.101423"
-            }
-          ]
+          value: "click_me_123"
         }
       },
       {
