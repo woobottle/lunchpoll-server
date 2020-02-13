@@ -43,13 +43,39 @@ app.post("/", urlencodedParser, function(req, res) {
           text: first
         },
         accessory: {
-          type: "button",
-          text: {
-            type: "plain_text",
-            emoji: true,
-            text: "Vote"
+          "type": "block_actions",
+          "team": {
+            "id": "T0CAG",
+            "domain": "acme-creamery"
           },
-          value: "click_me_123"
+          "user": {
+            "id": "U0CA5",
+            "username": "Amy McGee",
+            "name": "Amy McGee",
+            "team_id": "T3MDE"
+          },
+          "api_app_id": "A0CA5",
+          "token": "Shh_its_a_seekrit",
+          "container": {
+            "type": "message",
+            "text": "The contents of the original message where the action originated"
+          },
+          "trigger_id": "12466734323.1395872398",
+          "response_url": "https://www.postresponsestome.com/T123567/1509734234",
+          "actions": [
+            {
+              "type": "button",
+              "block_id": "qX8",
+              "action_id": "tTSSV",
+              "text": {
+                "type": "plain_text",
+                "text": "Choose",
+                "emoji": true
+              },
+              "value": "click_me_123",
+              "action_ts": "1581605443.101423"
+            }
+          ]
         }
       },
       {
@@ -121,63 +147,19 @@ app.post("/", urlencodedParser, function(req, res) {
   sendMessageToSlackResponseURL(responseURL, message);
 });
 
-app.post("/send-me-buttons", urlencodedParser, (req, res) => {
-  res.status(200).end() // best practice to respond with empty 200 status code
-  var reqBody = req.body
-  var responseURL = reqBody.response_url
+
+app.post("/actions", urlencodedParser, (req, res) => {
+  res.status(200).end(); // best practice to respond with 200 status
+  var actionJSONPayload = JSON.parse(req.body.payload); // parse URL-encoded payload JSON string
   var message = {
-      "text": "This is your first interactive message",
-      "attachments": [
-          {
-              "text": "Building buttons is easy right?",
-              "fallback": "Shame... buttons aren't supported in this land",
-              "callback_id": "button_tutorial",
-              "color": "#3AA3E3",
-              "attachment_type": "default",
-              "actions": [
-                  {
-                      "name": "yes",
-                      "text": "yes",
-                      "type": "button",
-                      "value": "yes"
-                  },
-                  {
-                      "name": "no",
-                      "text": "no",
-                      "type": "button",
-                      "value": "no"
-                  },
-                  {
-                      "name": "maybe",
-                      "text": "maybe",
-                      "type": "button",
-                      "value": "maybe",
-                      "style": "danger"
-                  }
-              ]
-          }
-      ]
-  }
-  sendMessageToSlackResponseURL(responseURL, message)
-    
+    text:
+      actionJSONPayload.user.name +
+      " clicked: " +
+      actionJSONPayload.actions[0].name,
+    replace_original: false
+  };
+  sendMessageToSlackResponseURL(actionJSONPayload.response_url, message);
 });
-
-app.get('/form', function (req, res) {
-  res.render('form');
-})
-
-app.post('/form_receiver', function(req, res, next){
-  console.log(req.body);
-  res.json(req.body);
-  // res.send(req.body);
-  // var title = req.query.title;
-  // var description = req.query.description;
-  // res.send(title + ',' + description)
-});
-
-app.get('/topic', function (req, res) {
-  res.send(req.query.id);
-})
 
 app.listen(3000, function() {
   console.log("Connected 3000 port!");
@@ -198,16 +180,3 @@ function sendMessageToSlackResponseURL(responseURL, JSONmessage) {
     }
   });
 }
-
-app.post("/actions", urlencodedParser, (req, res) => {
-  res.status(200).end(); // best practice to respond with 200 status
-  var actionJSONPayload = JSON.parse(req.body.payload); // parse URL-encoded payload JSON string
-  var message = {
-    text:
-      actionJSONPayload.user.name +
-      " clicked: " +
-      actionJSONPayload.actions[0].name,
-    replace_original: false
-  };
-  sendMessageToSlackResponseURL(actionJSONPayload.response_url, message);
-});
