@@ -24,7 +24,7 @@ app.post("/", urlencodedParser, function(req, res) {
   var third = reqBody.text.split(' ')[2]
   
   var message = {
-    text: "This is your first interactive message",
+    response_type: "in_channel",
     blocks: [
       {
         type: "section",
@@ -40,8 +40,7 @@ app.post("/", urlencodedParser, function(req, res) {
         type: "section",
         text: {
           type: "mrkdwn",
-          text:
-            first
+          text: first
         },
         accessory: {
           type: "button",
@@ -67,8 +66,7 @@ app.post("/", urlencodedParser, function(req, res) {
         type: "section",
         text: {
           type: "mrkdwn",
-          text:
-            second
+          text: second
         },
         accessory: {
           type: "button",
@@ -94,8 +92,7 @@ app.post("/", urlencodedParser, function(req, res) {
         type: "section",
         text: {
           type: "mrkdwn",
-          text:
-            third
+          text: third
         },
         accessory: {
           type: "button",
@@ -118,20 +115,6 @@ app.post("/", urlencodedParser, function(req, res) {
       },
       {
         type: "divider"
-      },
-      {
-        type: "actions",
-        elements: [
-          {
-            type: "button",
-            text: {
-              type: "plain_text",
-              emoji: true,
-              text: "Add a suggestion"
-            },
-            value: "click_me_123"
-          }
-        ]
       }
     ]
   };
