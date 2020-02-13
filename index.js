@@ -117,7 +117,7 @@ app.post("/", urlencodedParser, function(req, res) {
       }
     ]
   };
-  // sendMessageToSlackResponseURL(responseURL, message);
+  sendMessageToSlackResponseURL(responseURL, message);
 });
 
 
