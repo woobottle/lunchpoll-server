@@ -117,7 +117,7 @@ app.post("/", urlencodedParser, function(req, res) {
       }
     ]
   };
-  sendMessageToSlackResponseURL(responseURL, message);
+  // sendMessageToSlackResponseURL(responseURL, message);
 });
 
 
@@ -151,8 +151,6 @@ function sendMessageToSlackResponseURL(responseURL, JSONmessage) {
     json: JSONmessage
   };
   request(postOptions, (error, response, body) => {
-    console.log(response);
-    console.log("fsfsdfsdfs");
-    console.log(body);
+    
   });
 }
