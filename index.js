@@ -127,8 +127,10 @@ app.post("/actions", urlencodedParser, (req, res) => {
   console.log(actionJSONPayload);
   console.log(actionJSONPayload.message.blocks)
   actionJSONPayload.message.blocks[4].text.text = "123"
+
   var message = {
     response_type: "in_channel",
+    replace_original: "true",
     text:
       actionJSONPayload.user.name +
       " clicked: " +
