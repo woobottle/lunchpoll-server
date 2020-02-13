@@ -73,9 +73,15 @@ app.post("/", urlencodedParser, function(req, res) {
           text: {
             type: "plain_text",
             emoji: true,
-            text: "Vote"
+            text: "Vote 3"
           },
-          value: "click_me_123"
+          value: "click_me_123",
+          confirm: {
+            title: "Are you sure?",
+            text: "Wouldn't you prefer a good game of chess?",
+            ok_text: "Yes",
+            dismiss_text: "No"
+          }
         }
       },
       {
