@@ -126,7 +126,7 @@ app.post("/actions", urlencodedParser, (req, res) => {
   var actionJSONPayload = JSON.parse(req.body.payload); // parse URL-encoded payload JSON string
   console.log(actionJSONPayload);
   console.log(actionJSONPayload.message.blocks)
-  actionJSONPayload.message.blocks[4].text = "123"
+  actionJSONPayload.message.blocks[4].text.text = "123"
   var message = {
     response_type: "in_channel",
     text:
