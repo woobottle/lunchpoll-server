@@ -342,7 +342,7 @@ function update_message(e){
 function update_array(el, value){
   if(value == 'vote_for_one'){
     first_people = first_people.push(value);
-    first_people = filter_array(first_people;
+    first_people = filter_array(first_people);
   }else if(value == 'vote_for_two'){
     second_people = second_people.push(value);
     second_people = filter_array(second_people);
