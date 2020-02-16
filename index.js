@@ -209,6 +209,9 @@ function deletePoll(e){
 function update_message(e){
   response_url = e.response_url;
   update_array(e.user['username'], e.actions[0]['value'])
+  console.log(first_people)
+  console.log(second_people)
+  console.log(third_people)
   var messages = [
     {
       "type": "section",
