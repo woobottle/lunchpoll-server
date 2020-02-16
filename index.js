@@ -348,10 +348,10 @@ function update_array(value, el){
     console.log(first_people)
     first_people = filter_array(first_people);
   }else if(el == 'vote_for_two'){
-    second_people = second_people.push(value);
+    second_people.push(value);
     second_people = filter_array(second_people);
   }else{
-    third_people = third_people.push(value);
+    third_people.push(value);
     third_people = filter_array(third_people);
   }
 }
