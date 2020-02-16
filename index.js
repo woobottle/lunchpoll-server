@@ -316,12 +316,13 @@ function update_message(e){
     }
   ]
   var options = {
-    uri: "https://slack.com/api/chat.update",
+    uri: response_url,
     method: 'POST',
     headers: {
       "Content-type": "application/json"
     },
     json: {
+      replace_original: 'true',
       token: e.token,
       channel: e.channel['id'],
       text: "hello",
