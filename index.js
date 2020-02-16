@@ -358,7 +358,7 @@ function update_array(value, el){
 
 function filter_array(array){
   console.log(array)
-  filtered_array = Object.keys(array).filter((v,i,a) => a.indexOf(v) === i)
+  filtered_array = Array.from(new Set(array))
   console.log(filtered_array)
   return filtered_array
 }
