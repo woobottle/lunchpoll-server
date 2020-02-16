@@ -203,7 +203,8 @@ function deletePoll(e){
      uri: response_url,
      method: 'POST',
      headers: {
-       "Content-type": "application/json"
+       "Content-type": "application/json",
+       "Authorization": 'U0zHfOqal2n5V9sBb0F4ph7r'
      },
      json: {
        channel: payload.container['channel_id'],
