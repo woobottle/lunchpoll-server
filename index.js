@@ -340,14 +340,14 @@ function update_message(e){
 }
 
 function update_array(value, el){
-  if(value == 'vote_for_one'){
+  if(el == 'vote_for_one'){
     console.log(el);
     console.log("----------");
     console.log(value)
     first_people = first_people.push(value);
     console.log(first_people)
     first_people = filter_array(first_people);
-  }else if(value == 'vote_for_two'){
+  }else if(el == 'vote_for_two'){
     second_people = second_people.push(value);
     second_people = filter_array(second_people);
   }else{
