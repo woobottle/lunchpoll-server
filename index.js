@@ -205,127 +205,128 @@ function deletePoll(e){
 
 function update_message(e){
   response_url = e.response_url;
-  var messages = {
-    response_type: "in_channel",
-    blocks: [{
-        type: "section",
-        text: {
-          type: "mrkdwn",
-          text: "*오늘 뭐먹지?* Poll by <fakeLink.toUser.com|WooBottle>"
-        }
-      },
-      {
-        type: "divider"
-      },
-      {
-        type: "section",
-        text: {
-          type: "mrkdwn",
-          text: "31232"
-        },
-        accessory: {
-          type: "button",
-          text: {
-            type: "plain_text",
-            emoji: true,
-            text: "Vote"
-          },
-          value: "vote_for_one"
-        }
-      },
-      {
-        type: "context",
-        elements: [{
-          type: "plain_text",
-          emoji: true,
-          text: first_people.length + " votes"
-        }]
-      },
-      {
-        type: "section",
-        text: {
-          type: "mrkdwn",
-          text: "31232"
-        },
-        accessory: {
-          type: "button",
-          text: {
-            type: "plain_text",
-            emoji: true,
-            text: "Vote 3"
-          },
-          value: "vote_for_two"
-        }
-      },
-      {
-        type: "context",
-        elements: [{
-          type: "plain_text",
-          emoji: true,
-          text: second_people.length + " votes"
-        }]
-      },
-      {
-        type: "section",
-        text: {
-          type: "mrkdwn",
-          text: "31232"
-        },
-        accessory: {
-          type: "button",
-          text: {
-            type: "plain_text",
-            emoji: true,
-            text: "Vote"
-          },
-          value: "vote_for_three"
-        }
-      },
-      {
-        type: "context",
-        elements: [{
-          type: "mrkdwn",
-          text: third_people.length + " votes"
-        }]
-      },
-      {
-        type: "divider"
-      },
-      {
-        type: "actions",
-        elements: [{
-            type: "button",
-            text: {
-              type: "plain_text",
-              emoji: true,
-              text: "항목추가하기"
-            },
-            style: "primary",
-            value: "12314242"
-          },
-          {
-            type: "button",
-            text: {
-              type: "plain_text",
-              emoji: true,
-              text: "Delete"
-            },
-            style: "danger",
-            value: "Delete"
-          }
-        ]
+  var messages = [
+    {
+      type: "section",
+      text: {
+        type: "mrkdwn",
+        text: "*오늘 뭐먹지?* Poll by <fakeLink.toUser.com|WooBottle>"
       }
-    ]
-  };
+    },
+    {
+      type: "divider"
+    },
+    {
+      type: "section",
+      text: {
+        type: "mrkdwn",
+        text: "31232"
+      },
+      accessory: {
+        type: "button",
+        text: {
+          type: "plain_text",
+          emoji: true,
+          text: "Vote"
+        },
+        value: "vote_for_one"
+      }
+    },
+    {
+      type: "context",
+      elements: [{
+        type: "plain_text",
+        emoji: true,
+        text: first_people.length + " votes"
+      }]
+    },
+    {
+      type: "section",
+      text: {
+        type: "mrkdwn",
+        text: "31232"
+      },
+      accessory: {
+        type: "button",
+        text: {
+          type: "plain_text",
+          emoji: true,
+          text: "Vote 3"
+        },
+        value: "vote_for_two"
+      }
+    },
+    {
+      type: "context",
+      elements: [{
+        type: "plain_text",
+        emoji: true,
+        text: second_people.length + " votes"
+      }]
+    },
+    {
+      type: "section",
+      text: {
+        type: "mrkdwn",
+        text: "31232"
+      },
+      accessory: {
+        type: "button",
+        text: {
+          type: "plain_text",
+          emoji: true,
+          text: "Vote"
+        },
+        value: "vote_for_three"
+      }
+    },
+    {
+      type: "context",
+      elements: [{
+        type: "mrkdwn",
+        text: third_people.length + " votes"
+      }]
+    },
+    {
+      type: "divider"
+    },
+    {
+      type: "actions",
+      elements: [{
+          type: "button",
+          text: {
+            type: "plain_text",
+            emoji: true,
+            text: "항목추가하기"
+          },
+          style: "primary",
+          value: "12314242"
+        },
+        {
+          type: "button",
+          text: {
+            type: "plain_text",
+            emoji: true,
+            text: "Delete"
+          },
+          style: "danger",
+          value: "Delete"
+        }
+      ]
+    }
+  ]
   var options = {
-    uri: response_url,
+    uri: "https://slack.com/api/chat.update",
     method: 'POST',
     headers: {
       "Content-type": "application/json"
     },
     json: {
-      replace_original: "true",
-      text: messages
+      token: e.token,
+      channel: e.channel['id'],
+      text: "hello",
+      ts: e.message['ts'],
+      blocks: messages
     }
   };
   request(options, (error, response, body) => {
