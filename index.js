@@ -12,7 +12,7 @@ app.use(express.static('public'));
 first_people = [];
 second_people = [];
 third_people = [];
-
+first, second, third;
 
 //사용자가 get 방식으로 접속한걸 잡기 위해서
 // app.get('/', function (req, res) {
@@ -27,9 +27,9 @@ app.post("/", urlencodedParser, function(req, res) {
   second_people = [];
   third_people = [];
   var responseURL = reqBody.response_url;
-  var first = reqBody.text.split(' ')[0]
-  var second = reqBody.text.split(' ')[1]
-  var third = reqBody.text.split(' ')[2]
+  first = reqBody.text.split(' ')[0]
+  second = reqBody.text.split(' ')[1]
+  third = reqBody.text.split(' ')[2]
   
   var message = {
     response_type: "in_channel",
