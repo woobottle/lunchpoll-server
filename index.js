@@ -12,7 +12,9 @@ app.use(express.static('public'));
 first_people = [];
 second_people = [];
 third_people = [];
-first, second, third;
+first = "";
+second= "";
+third= "";
 
 //사용자가 get 방식으로 접속한걸 잡기 위해서
 // app.get('/', function (req, res) {
