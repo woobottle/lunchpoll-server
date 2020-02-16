@@ -127,7 +127,7 @@ app.post("/", urlencodedParser, function(req, res) {
             text: {
               type: "plain_text",
               emoji: true,
-              text: "항목추가하기"
+              text: "항목추가하기(예정)"
             },
             style: "primary",
             value: "Add"
