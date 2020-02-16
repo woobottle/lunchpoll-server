@@ -157,24 +157,22 @@ app.post("/", urlencodedParser, function(req, res) {
 
 app.post("/actions", urlencodedParser, (req, res) => {
   res.status(200).end(); // best practice to respond with 200 status
-  var actionJSONPayload = JSON.parse(req.body.payload); // parse URL-encoded payload JSON string
-  console.log(actionJSONPayload);
-  console.log(actionJSONPayload.actions[0]['value'])
-  if(actionJSONPayload.actions[0]['value'] == "Delete"){
-    console.log('start')
-    deletePoll(actionJSONPayload);
+  var pay_load = JSON.parse(req.body.payload); // parse URL-encoded payload JSON string
+  console.log(pay_load);
+  console.log(pay_load.actions[0]['value'])
+  var value = pay_load.actions[0]['value'];
+  if (value == "Delete") {
+    deletePoll(pay_load);
   }
-  // var message = {
-  //   request_url: "https://hooks.slack.com/actions/T03EB3HS3/938267588882/RCeTzXvD3dWupG08EUcel1z0",
-  //   response_type: "in_channel",
-  //   replace_original: true,
-  //   text:
-  //     actionJSONPayload.user.name +
-  //     " clicked: " +
-  //     actionJSONPayload.actions[0].name,
-  //   replace_original: false
-  // };
-  // sendMessageToSlackResponseURL(actionJSONPayload.response_url, message);
+  else if(value == "Add"){
+    var message = {
+      text: "준비중인 기능입니다."
+    }
+    sendMessageToSlackResponseURL(pay_load.response_url, message)
+  }
+  else{
+
+  }
 });
 
 app.listen(3000, function() {
@@ -197,23 +195,24 @@ function sendMessageToSlackResponseURL(responseURL, JSONmessage) {
 
 function deletePoll(e){
   var payload = e;
+  response_url = 'https://slack.com/api/chat.delete/T03EB3HS3/956832769126/XMzj8uInDCWO4Cmwg2FjZ9ys';
+  var options = {
+    uri: response_url,
+    method: 'POST',
+    headers: {
+      "Content-type": "application/json"
+    },
+    json: {
+    delete_original: "true"
+    }
+  };
+  request(options, (error, response, body) => {
+  console.log(body);
+  });
+}
+
+function update_message(e){
+  var payload = e;
   response_url = 'https://hooks.slack.com/actions/T03EB3HS3/956832769126/XMzj8uInDCWO4Cmwg2FjZ9ys';
-   var options = {
-     uri: response_url,
-     method: 'POST',
-     headers: {
-       "Content-type": "application/json"
-     },
-     json: {
-      delete_original: "true"
-      //  token: 'U0zHfOqal2n5V9sBb0F4ph7r',
-      //  channel: payload.container['channel_id'],
-      //  ts: payload.container['message_ts']
-     }
-   };
-   console.log("end")
-   console.log(options);
-   request(options, (error, response, body) => {
-    console.log(body);
-   });
+
 }
