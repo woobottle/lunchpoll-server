@@ -164,15 +164,7 @@ app.post("/actions", urlencodedParser, (req, res) => {
   if (value == "Delete") {
     deletePoll(pay_load);
   }
-  else if(value == "Add"){
-    var message = {
-      text: "준비중인 기능입니다."
-    }
-    sendMessageToSlackResponseURL(pay_load.response_url, message)
-  }
-  else{
-
-  }
+  
 });
 
 app.listen(3000, function() {
@@ -194,7 +186,6 @@ function sendMessageToSlackResponseURL(responseURL, JSONmessage) {
 }
 
 function deletePoll(e){
-  var payload = e;
   response_url = 'https://hooks.slack.com/actions/T03EB3HS3/956832769126/XMzj8uInDCWO4Cmwg2FjZ9ys';
   var options = {
     uri: response_url,
@@ -203,11 +194,11 @@ function deletePoll(e){
       "Content-type": "application/json"
     },
     json: {
-    delete_original: "true"
+      delete_original: "true"
     }
   };
   request(options, (error, response, body) => {
-  console.log(body);
+    console.log(body);
   });
 }
 
