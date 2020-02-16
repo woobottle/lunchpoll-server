@@ -194,7 +194,7 @@ function sendMessageToSlackResponseURL(responseURL, JSONmessage) {
 }
 
 function deletePoll(e){
-  response_url = e.responseURL;
+  response_url = e.response_url;
   var options = {
     uri: response_url,
     method: 'POST',
