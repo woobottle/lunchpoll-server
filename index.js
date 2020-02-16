@@ -206,116 +206,115 @@ function deletePoll(e){
 function update_message(e){
   response_url = e.response_url;
   update_array(e.user['username'], e.actions[0]['value'])
-  var messages = [
-    {
-      type: "section",
-      text: {
-        type: "mrkdwn",
-        text: "*오늘 뭐먹지?* Poll by <fakeLink.toUser.com|WooBottle>"
-      }
-    },
-    {
-      type: "divider"
-    },
-    {
-      type: "section",
-      text: {
-        type: "mrkdwn",
-        text: "31232"
-      },
-      accessory: {
-        type: "button",
+  var messages = [{
+        type: "section",
         text: {
-          type: "plain_text",
-          emoji: true,
-          text: "Vote"
-        },
-        value: "vote_for_one"
-      }
-    },
-    {
-      type: "context",
-      elements: [{
-        type: "plain_text",
-        emoji: true,
-        text: first_people.length + " votes"
-      }]
-    },
-    {
-      type: "section",
-      text: {
-        type: "mrkdwn",
-        text: "31232"
-      },
-      accessory: {
-        type: "button",
-        text: {
-          type: "plain_text",
-          emoji: true,
-          text: "Vote 3"
-        },
-        value: "vote_for_two"
-      }
-    },
-    {
-      type: "context",
-      elements: [{
-        type: "plain_text",
-        emoji: true,
-        text: second_people.length + " votes"
-      }]
-    },
-    {
-      type: "section",
-      text: {
-        type: "mrkdwn",
-        text: "31232"
-      },
-      accessory: {
-        type: "button",
-        text: {
-          type: "plain_text",
-          emoji: true,
-          text: "Vote"
-        },
-        value: "vote_for_three"
-      }
-    },
-    {
-      type: "context",
-      elements: [{
-        type: "mrkdwn",
-        text: third_people.length + " votes"
-      }]
-    },
-    {
-      type: "divider"
-    },
-    {
-      type: "actions",
-      elements: [{
-          type: "button",
-          text: {
-            type: "plain_text",
-            emoji: true,
-            text: "항목추가하기"
-          },
-          style: "primary",
-          value: "12314242"
-        },
-        {
-          type: "button",
-          text: {
-            type: "plain_text",
-            emoji: true,
-            text: "Delete"
-          },
-          style: "danger",
-          value: "Delete"
+          type: "mrkdwn",
+          text: "*오늘 뭐먹지?* Poll by <fakeLink.toUser.com|WooBottle>"
         }
-      ]
-    }
-  ]
+      },
+      {
+        type: "divider"
+      },
+      {
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: first
+        },
+        accessory: {
+          type: "button",
+          text: {
+            type: "plain_text",
+            emoji: true,
+            text: "Vote"
+          },
+          value: "vote_for_one"
+        }
+      },
+      {
+        type: "context",
+        elements: [{
+          type: "plain_text",
+          emoji: true,
+          text: first_people.length + " votes"
+        }]
+      },
+      {
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: second
+        },
+        accessory: {
+          type: "button",
+          text: {
+            type: "plain_text",
+            emoji: true,
+            text: "Vote 3"
+          },
+          value: "vote_for_two"
+        }
+      },
+      {
+        type: "context",
+        elements: [{
+          type: "plain_text",
+          emoji: true,
+          text: second_people.length + " votes"
+        }]
+      },
+      {
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: third
+        },
+        accessory: {
+          type: "button",
+          text: {
+            type: "plain_text",
+            emoji: true,
+            text: "Vote"
+          },
+          value: "vote_for_three"
+        }
+      },
+      {
+        type: "context",
+        elements: [{
+          type: "mrkdwn",
+          text: third_people.length + " votes"
+        }]
+      },
+      {
+        type: "divider"
+      },
+      {
+        type: "actions",
+        elements: [{
+            type: "button",
+            text: {
+              type: "plain_text",
+              emoji: true,
+              text: "항목추가하기"
+            },
+            style: "primary",
+            value: "Add"
+          },
+          {
+            type: "button",
+            text: {
+              type: "plain_text",
+              emoji: true,
+              text: "Delete"
+            },
+            style: "danger",
+            value: "Delete"
+          }
+        ]
+      }
+    ]
   var options = {
     uri: response_url,
     method: 'POST',
@@ -344,6 +343,6 @@ function update_array(el, value){
 }
 
 function filter_array(array){
-  filtered_array = array.filter((v,i,a) => a.indexOf(v) === i)
+  filtered_array = Object.keys(array).filter((v,i,a) => a.indexOf(v) === i)
   return filtered_array
 }
