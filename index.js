@@ -197,8 +197,7 @@ function sendMessageToSlackResponseURL(responseURL, JSONmessage) {
 
 function deletePoll(e){
   var payload = e;
-  console.log(payload)
-  response_url = "https://slack.com/api/chat.delete";
+  response_url = 'https://hooks.slack.com/actions/T03EB3HS3/956832769126/XMzj8uInDCWO4Cmwg2FjZ9ys';
    var options = {
      uri: response_url,
      method: 'POST',
@@ -206,9 +205,10 @@ function deletePoll(e){
        "Content-type": "application/json"
      },
      json: {
-       token: 'U0zHfOqal2n5V9sBb0F4ph7r',
-       channel: payload.container['channel_id'],
-       ts: payload.container['message_ts']
+      delete_original: "true"
+      //  token: 'U0zHfOqal2n5V9sBb0F4ph7r',
+      //  channel: payload.container['channel_id'],
+      //  ts: payload.container['message_ts']
      }
    };
    console.log("end")
