@@ -57,7 +57,7 @@ app.post("/", urlencodedParser, function(req, res) {
             emoji: true,
             text: "Vote"
           },
-          value: "click_me_123"
+          value: "vote_for_one"
         }
       },
       {
@@ -66,7 +66,7 @@ app.post("/", urlencodedParser, function(req, res) {
           {
             type: "plain_text",
             emoji: true,
-            text: first_people.length + "votes"
+            text: first_people.length + " votes"
           }
         ]
       },
@@ -82,7 +82,8 @@ app.post("/", urlencodedParser, function(req, res) {
             type: "plain_text",
             emoji: true,
             text: "Vote 3"
-          }
+          },
+          value: "vote_for_two"
         }
       },
       {
@@ -91,7 +92,7 @@ app.post("/", urlencodedParser, function(req, res) {
           {
             type: "plain_text",
             emoji: true,
-            text: second_people.length + "votes"
+            text: second_people.length + " votes"
           }
         ]
       },
@@ -108,7 +109,7 @@ app.post("/", urlencodedParser, function(req, res) {
             emoji: true,
             text: "Vote"
           },
-          value: "click_me_123"
+          value: "vote_for_three"
         }
       },
       {
@@ -116,12 +117,37 @@ app.post("/", urlencodedParser, function(req, res) {
         elements: [
           {
             type: "mrkdwn",
-            text: third_people.length + "votes"
+            text: third_people.length + " votes"
           }
         ]
       },
       {
         type: "divider"
+      },
+      {
+        type: "actions",
+        elements: [
+          {
+            type: "button",
+            text: {
+              type: "plain_text",
+              emoji: true,
+              text: "항목추가하기"
+            },
+            style: "primary",
+            value: "Add"
+          },
+          {
+            type: "button",
+            text: {
+              type: "plain_text",
+              emoji: true,
+              text: "Delete"
+            },
+            style: "danger",
+            value: "Delete"
+          }
+        ]
       }
     ]
   };
@@ -134,6 +160,9 @@ app.post("/actions", urlencodedParser, (req, res) => {
   var actionJSONPayload = JSON.parse(req.body.payload); // parse URL-encoded payload JSON string
   console.log(actionJSONPayload);
   
+  if(actionJSONPayload.actions.value == "Delete"){
+    deletePoll(actionJSONPayload);
+  }
   // var message = {
   //   request_url: "https://hooks.slack.com/actions/T03EB3HS3/938267588882/RCeTzXvD3dWupG08EUcel1z0",
   //   response_type: "in_channel",
@@ -163,4 +192,24 @@ function sendMessageToSlackResponseURL(responseURL, JSONmessage) {
   request(postOptions, (error, response, body) => {
     
   });
+}
+
+function deletePoll(e){
+  var payload = e.parameter.payload;
+  var json = JSON.parse(payload);
+
+  response_url = "https://slack.com/api/chat.delete";
+   var options = {
+     uri = response_url,
+     method: 'POST',
+     headers: {
+       "Content-type": "application/json"
+     },
+     json: {
+       channel: payload.container.channel_id,
+       ts: payload.container.message_ts
+     }
+   };
+
+   request(options);
 }
