@@ -200,7 +200,7 @@ function deletePoll(e){
 
   response_url = "https://slack.com/api/chat.delete";
    var options = {
-     uri = response_url,
+     uri: response_url,
      method: 'POST',
      headers: {
        "Content-type": "application/json"
