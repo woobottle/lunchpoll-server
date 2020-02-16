@@ -323,10 +323,7 @@ function update_message(e){
     },
     json: {
       replace_original: 'true',
-      token: e.token,
-      channel: e.channel['id'],
       text: "hello",
-      ts: e.message['ts'],
       blocks: messages
     }
   };
