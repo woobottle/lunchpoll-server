@@ -341,11 +341,14 @@ function update_message(e){
 
 function update_array(el, value){
   if(value == 'vote_for_one'){
-    first_people = filter_array(first_people.push(value));
+    first_people = first_people.push(value);
+    first_people = filter_array(first_people;
   }else if(value == 'vote_for_two'){
-    second_people = filter_array(second_people.push(value));
+    second_people = second_people.push(value);
+    second_people = filter_array(second_people);
   }else{
-    third_people = filter_array(third_people.push(value));
+    third_people = third_people.push(value);
+    third_people = filter_array(third_people);
   }
 }
 
