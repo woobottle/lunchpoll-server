@@ -9,6 +9,11 @@ app.set('view engine', 'jade');
 app.set('views', './views');
 app.use(express.static('public'));
 
+first_people = [];
+second_people = [];
+third_people = [];
+
+
 //사용자가 get 방식으로 접속한걸 잡기 위해서
 // app.get('/', function (req, res) {
 //   res.send('Hello home page');
@@ -18,6 +23,9 @@ app.post("/", urlencodedParser, function(req, res) {
   res.status(200).end()
   var reqBody = req.body;
   console.log(reqBody);
+  first_people = [];
+  second_people = [];
+  third_people = [];
   var responseURL = reqBody.response_url;
   var first = reqBody.text.split(' ')[0]
   var second = reqBody.text.split(' ')[1]
@@ -58,7 +66,7 @@ app.post("/", urlencodedParser, function(req, res) {
           {
             type: "plain_text",
             emoji: true,
-            text: "No votes"
+            text: first_people.length + "votes"
           }
         ]
       },
@@ -83,7 +91,7 @@ app.post("/", urlencodedParser, function(req, res) {
           {
             type: "plain_text",
             emoji: true,
-            text: "No votes"
+            text: second_people.length + "votes"
           }
         ]
       },
@@ -108,7 +116,7 @@ app.post("/", urlencodedParser, function(req, res) {
         elements: [
           {
             type: "mrkdwn",
-            text: "No votes"
+            text: third_people.length + "votes"
           }
         ]
       },
@@ -125,19 +133,18 @@ app.post("/actions", urlencodedParser, (req, res) => {
   res.status(200).end(); // best practice to respond with 200 status
   var actionJSONPayload = JSON.parse(req.body.payload); // parse URL-encoded payload JSON string
   console.log(actionJSONPayload);
-  console.log(actionJSONPayload.message.blocks)
   
-  var message = {
-    request_url: "https://hooks.slack.com/actions/T03EB3HS3/938267588882/RCeTzXvD3dWupG08EUcel1z0",
-    response_type: "in_channel",
-    replace_original: true,
-    text:
-      actionJSONPayload.user.name +
-      " clicked: " +
-      actionJSONPayload.actions[0].name,
-    replace_original: false
-  };
-  sendMessageToSlackResponseURL(actionJSONPayload.response_url, message);
+  // var message = {
+  //   request_url: "https://hooks.slack.com/actions/T03EB3HS3/938267588882/RCeTzXvD3dWupG08EUcel1z0",
+  //   response_type: "in_channel",
+  //   replace_original: true,
+  //   text:
+  //     actionJSONPayload.user.name +
+  //     " clicked: " +
+  //     actionJSONPayload.actions[0].name,
+  //   replace_original: false
+  // };
+  // sendMessageToSlackResponseURL(actionJSONPayload.response_url, message);
 });
 
 app.listen(3000, function() {
