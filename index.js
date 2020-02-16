@@ -159,7 +159,7 @@ app.post("/actions", urlencodedParser, (req, res) => {
   res.status(200).end(); // best practice to respond with 200 status
   var actionJSONPayload = JSON.parse(req.body.payload); // parse URL-encoded payload JSON string
   console.log(actionJSONPayload);
-  
+  console.log(actionJSONPayload.actions.value)
   if(actionJSONPayload.actions.value == "Delete"){
     deletePoll(actionJSONPayload);
   }
