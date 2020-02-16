@@ -205,7 +205,7 @@ function deletePoll(e){
 
 function update_message(e){
   response_url = e.response_url;
-  var message = {
+  var messages = {
     response_type: "in_channel",
     blocks: [{
         type: "section",
@@ -325,7 +325,7 @@ function update_message(e){
     },
     json: {
       replace_original: "true",
-      message: message
+      text: messages
     }
   };
   request(options, (error, response, body) => {
