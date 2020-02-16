@@ -35,7 +35,8 @@ app.post("/", urlencodedParser, function(req, res) {
   
   var message = {
     response_type: "in_channel",
-    blocks: [{
+    blocks: [
+      {
         type: "section",
         text: {
           type: "mrkdwn",
@@ -208,8 +209,7 @@ function deletePoll(e){
 function update_message(e){
   response_url = e.response_url;
   update_array(e.user['username'], e.actions[0]['value'])
-  var messages = [
-    {
+  var messages = [{
       type: "section",
       text: {
         type: "mrkdwn",
