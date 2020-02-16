@@ -100,7 +100,7 @@ function update_message(e){
   
 }
 
-var message = {
+message = {
   response_type: "in_channel",
   blocks: [{
       type: "section",
