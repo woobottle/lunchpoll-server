@@ -339,7 +339,7 @@ function update_message(e){
   });
 }
 
-function update_array(el, value){
+function update_array(value, el){
   if(value == 'vote_for_one'){
     console.log(el);
     console.log("----------");
