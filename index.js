@@ -221,7 +221,7 @@ function update_message(e){
         type: "section",
         text: {
           type: "mrkdwn",
-          text: first
+          text: "31232"
         },
         accessory: {
           type: "button",
@@ -245,7 +245,7 @@ function update_message(e){
         type: "section",
         text: {
           type: "mrkdwn",
-          text: second
+          text: "31232"
         },
         accessory: {
           type: "button",
@@ -269,7 +269,7 @@ function update_message(e){
         type: "section",
         text: {
           type: "mrkdwn",
-          text: third
+          text: "31232"
         },
         accessory: {
           type: "button",
