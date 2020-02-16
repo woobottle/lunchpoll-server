@@ -161,6 +161,7 @@ app.post("/actions", urlencodedParser, (req, res) => {
   console.log(actionJSONPayload);
   console.log(actionJSONPayload.actions[0]['value'])
   if(actionJSONPayload.actions[0]['value'] == "Delete"){
+    console.log('start')
     deletePoll(actionJSONPayload);
   }
   // var message = {
@@ -209,7 +210,7 @@ function deletePoll(e){
        ts: payload.container['message_ts']
      }
    };
-
+   console.log("end")
    request(options, (error, response, body) => {
     console.log(error);
    });
