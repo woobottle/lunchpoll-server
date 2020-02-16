@@ -161,7 +161,7 @@ app.post("/actions", urlencodedParser, (req, res) => {
     var message = {
       text: "준비중인 기능입니다."
     }
-    sendMessageToSlackResponseURL(pay_load.response_url, message)
+    //sendMessageToSlackResponseURL(pay_load.response_url, message)
   }
   else{
     update_message(pay_load)
@@ -205,6 +205,7 @@ function deletePoll(e){
 
 function update_message(e){
   response_url = e.response_url;
+  update_array(e.user['username'], e.actions[0]['value'])
   var messages = [
     {
       type: "section",
@@ -332,3 +333,17 @@ function update_message(e){
   });
 }
 
+function update_array(el, value){
+  if(value == 'vote_for_one'){
+    first_people = filter_array(first_people.push(value));
+  }else if(value == 'vote_for_two'){
+    second_people = filter_array(second_people.push(value));
+  }else{
+    third_people = filter_array(third_people.push(value));
+  }
+}
+
+function filter_array(array){
+  filtered_array = array.filter((v,i,a) => a.indexOf(v) === i)
+  return filtered_array
+}
