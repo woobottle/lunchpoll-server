@@ -344,7 +344,7 @@ function update_array(value, el){
     console.log(el);
     console.log("----------");
     console.log(value)
-    first_people = first_people.push(value);
+    first_people.push(value);
     console.log(first_people)
     first_people = filter_array(first_people);
   }else if(el == 'vote_for_two'){
