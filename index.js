@@ -13,9 +13,6 @@ first_people = [];
 second_people = [];
 third_people = [];
 
-first;
-second;
-third;
 
 //사용자가 get 방식으로 접속한걸 잡기 위해서
 // app.get('/', function (req, res) {
@@ -30,11 +27,123 @@ app.post("/", urlencodedParser, function(req, res) {
   second_people = [];
   third_people = [];
   var responseURL = reqBody.response_url;
-  first = reqBody.text.split(' ')[0]
-  second = reqBody.text.split(' ')[1]
-  third = reqBody.text.split(' ')[2]
+  var first = reqBody.text.split(' ')[0]
+  var second = reqBody.text.split(' ')[1]
+  var third = reqBody.text.split(' ')[2]
   
-  
+  var message = {
+    response_type: "in_channel",
+    blocks: [{
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: "*오늘 뭐먹지?* Poll by <fakeLink.toUser.com|WooBottle>"
+        }
+      },
+      {
+        type: "divider"
+      },
+      {
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: first
+        },
+        accessory: {
+          type: "button",
+          text: {
+            type: "plain_text",
+            emoji: true,
+            text: "Vote"
+          },
+          value: "vote_for_one"
+        }
+      },
+      {
+        type: "context",
+        elements: [{
+          type: "plain_text",
+          emoji: true,
+          text: first_people.length + " votes"
+        }]
+      },
+      {
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: second
+        },
+        accessory: {
+          type: "button",
+          text: {
+            type: "plain_text",
+            emoji: true,
+            text: "Vote 3"
+          },
+          value: "vote_for_two"
+        }
+      },
+      {
+        type: "context",
+        elements: [{
+          type: "plain_text",
+          emoji: true,
+          text: second_people.length + " votes"
+        }]
+      },
+      {
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: third
+        },
+        accessory: {
+          type: "button",
+          text: {
+            type: "plain_text",
+            emoji: true,
+            text: "Vote"
+          },
+          value: "vote_for_three"
+        }
+      },
+      {
+        type: "context",
+        elements: [{
+          type: "mrkdwn",
+          text: third_people.length + " votes"
+        }]
+      },
+      {
+        type: "divider"
+      },
+      {
+        type: "actions",
+        elements: [{
+            type: "button",
+            text: {
+              type: "plain_text",
+              emoji: true,
+              text: "항목추가하기"
+            },
+            style: "primary",
+            value: "Add"
+          },
+          {
+            type: "button",
+            text: {
+              type: "plain_text",
+              emoji: true,
+              text: "Delete"
+            },
+            style: "danger",
+            value: "Delete"
+          }
+        ]
+      }
+    ]
+  };
+
   sendMessageToSlackResponseURL(responseURL, message);
 });
 
@@ -55,7 +164,7 @@ app.post("/actions", urlencodedParser, (req, res) => {
     sendMessageToSlackResponseURL(pay_load.response_url, message)
   }
   else{
-
+    update_message(pay_load)
   }
 });
 
@@ -95,120 +204,21 @@ function deletePoll(e){
 }
 
 function update_message(e){
-  var payload = e;
-  response_url = 'https://hooks.slack.com/actions/T03EB3HS3/956832769126/XMzj8uInDCWO4Cmwg2FjZ9ys';
+  response_url = e.response_url;
   
+  var options = {
+    uri: response_url,
+    method: 'POST',
+    headers: {
+      "Content-type": "application/json"
+    },
+    json: {
+      replace_original: "true",
+      text: "Thank you"
+    }
+  };
+  request(options, (error, response, body) => {
+    console.log(body);
+  });
 }
 
-message = {
-  response_type: "in_channel",
-  blocks: [{
-      type: "section",
-      text: {
-        type: "mrkdwn",
-        text: "*오늘 뭐먹지?* Poll by <fakeLink.toUser.com|WooBottle>"
-      }
-    },
-    {
-      type: "divider"
-    },
-    {
-      type: "section",
-      text: {
-        type: "mrkdwn",
-        text: first
-      },
-      accessory: {
-        type: "button",
-        text: {
-          type: "plain_text",
-          emoji: true,
-          text: "Vote"
-        },
-        value: "vote_for_one"
-      }
-    },
-    {
-      type: "context",
-      elements: [{
-        type: "plain_text",
-        emoji: true,
-        text: first_people.length + " votes"
-      }]
-    },
-    {
-      type: "section",
-      text: {
-        type: "mrkdwn",
-        text: second
-      },
-      accessory: {
-        type: "button",
-        text: {
-          type: "plain_text",
-          emoji: true,
-          text: "Vote 3"
-        },
-        value: "vote_for_two"
-      }
-    },
-    {
-      type: "context",
-      elements: [{
-        type: "plain_text",
-        emoji: true,
-        text: second_people.length + " votes"
-      }]
-    },
-    {
-      type: "section",
-      text: {
-        type: "mrkdwn",
-        text: third
-      },
-      accessory: {
-        type: "button",
-        text: {
-          type: "plain_text",
-          emoji: true,
-          text: "Vote"
-        },
-        value: "vote_for_three"
-      }
-    },
-    {
-      type: "context",
-      elements: [{
-        type: "mrkdwn",
-        text: third_people.length + " votes"
-      }]
-    },
-    {
-      type: "divider"
-    },
-    {
-      type: "actions",
-      elements: [{
-          type: "button",
-          text: {
-            type: "plain_text",
-            emoji: true,
-            text: "항목추가하기"
-          },
-          style: "primary",
-          value: "Add"
-        },
-        {
-          type: "button",
-          text: {
-            type: "plain_text",
-            emoji: true,
-            text: "Delete"
-          },
-          style: "danger",
-          value: "Delete"
-        }
-      ]
-    }
-  ]
-};
