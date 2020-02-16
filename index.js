@@ -213,6 +213,6 @@ function deletePoll(e){
    console.log("end")
    console.log(options);
    request(options, (error, response, body) => {
-    console.log(response);
+    console.log(body);
    });
 }
