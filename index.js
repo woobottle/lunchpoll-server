@@ -196,7 +196,6 @@ function sendMessageToSlackResponseURL(responseURL, JSONmessage) {
 
 function deletePoll(e){
   var payload = e;
-  var json = JSON.parse(payload);
   console.log(payload)
   response_url = "https://slack.com/api/chat.delete";
    var options = {
