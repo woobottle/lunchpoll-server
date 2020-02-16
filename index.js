@@ -344,7 +344,6 @@ function update_array(el, value){
     first_people = first_people.push(value);
     first_people = filter_array(first_people);
   }else if(value == 'vote_for_two'){
-    console.log(el, value);
     second_people = second_people.push(value);
     second_people = filter_array(second_people);
   }else{
@@ -354,7 +353,6 @@ function update_array(el, value){
 }
 
 function filter_array(array){
-  console.log(array)
   filtered_array = Object.keys(array).filter((v,i,a) => a.indexOf(v) === i)
   return filtered_array
 }
