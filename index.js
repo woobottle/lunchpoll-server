@@ -122,27 +122,27 @@ app.post("/", urlencodedParser, function(req, res) {
       },
       {
         type: "actions",
-        elements: [{
-            type: "button",
-            text: {
-              type: "plain_text",
-              emoji: true,
-              text: "항목추가하기(예정)"
-            },
-            style: "primary",
-            value: "Add"
-          },
-          {
-            type: "button",
-            text: {
-              type: "plain_text",
-              emoji: true,
-              text: "Delete"
-            },
-            style: "danger",
-            value: "Delete"
-          }
-        ]
+        // elements: [{
+        //     type: "button",
+        //     text: {
+        //       type: "plain_text",
+        //       emoji: true,
+        //       text: "항목추가하기(예정)"
+        //     },
+        //     style: "primary",
+        //     value: "Add"
+        //   },
+        //   {
+        //     type: "button",
+        //     text: {
+        //       type: "plain_text",
+        //       emoji: true,
+        //       text: "Delete"
+        //     },
+        //     style: "danger",
+        //     value: "Delete"
+        //   }
+        // ]
       }
     ]
   };
@@ -299,27 +299,27 @@ function update_message(e){
     },
     {
       "type": "actions",
-      "elements": [{
-          "type": "button",
-          "text": {
-            "type": "plain_text",
-            "emoji": true,
-            "text": "항목추가하기(예정)"
-          },
-          "style": "primary",
-          "value": "Add"
-        },
-        {
-          "type": "button",
-          "text": {
-            "type": "plain_text",
-            "emoji": true,
-            "text": "Delete"
-          },
-          "style": "danger",
-          "value": "Delete"
-        }
-      ]
+      // "elements": [{
+      //     "type": "button",
+      //     "text": {
+      //       "type": "plain_text",
+      //       "emoji": true,
+      //       "text": "항목추가하기(예정)"
+      //     },
+      //     "style": "primary",
+      //     "value": "Add"
+      //   },
+      //   {
+      //     "type": "button",
+      //     "text": {
+      //       "type": "plain_text",
+      //       "emoji": true,
+      //       "text": "Delete"
+      //     },
+      //     "style": "danger",
+      //     "value": "Delete"
+      //   }
+      // ]
     }
   ]
   var options = {
