@@ -258,7 +258,7 @@ function update_message(e){
         "text": {
           "type": "plain_text",
           "emoji": true,
-          "text": "Vote 3"
+          "text": "Vote"
         },
         "value": "vote_for_two"
       }
