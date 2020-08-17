@@ -1,6 +1,8 @@
 var express = require('express');
 var request = require('request');
 var bodyParser = require('body-parser');
+var urlencode = require('urlencode');
+const e = require('express');
 var app = express();
 var urlencodedParser = bodyParser.urlencoded({ extended: false})
 app.unsubscribe(express.json())
@@ -12,26 +14,45 @@ app.use(express.static('public'));
 first_people = [];
 second_people = [];
 third_people = [];
-first = "";
-second= "";
-third= "";
+var restaurant_array = [["쿠시라쿠", urlencode("쿠시라쿠"), []], ["맥도날드", urlencode("신사 맥도날드"), []], ["브루클린버거", urlencode("브루클린버거"), []], 
+                    ["두부공작소", urlencode("두부공작소"), []], ["소로길", urlencode("소로길"), []], ["동남아식당", urlencode("동남아식당"), []], 
+                    ["무적의 돈까스", urlencode("무적의 돈까스"), []], ["장수 설렁탕", urlencode("장수 설렁탕"), []], ["우정식당", urlencode("우정식당"), []],
+                    ["순두부와 삼겹살", urlencode("순두부와 삼겹살"), []]];
+var naver_url_head = "nmap://search?query=";
+var naver_url_tail = "&appname=naver-map-practice";
 
-//사용자가 get 방식으로 접속한걸 잡기 위해서
-// app.get('/', function (req, res) {
-//   res.send('Hello home page');
-// });
-
+var restaurant_array_html = "" + restaurant_array.map(function(v,i){
+  return `{ 
+            type: "section",
+            text: {
+              type: "mrkdwn",
+              text: ${[v[0]]}(${naver_url_head}${v[1]}${naver_url_tail})
+          }, 
+            accessory: { 
+              type: "button", 
+              text: { 
+                type: "plain_text", 
+                emoji: true, 
+                text: "투표" 
+              },
+              value: ${i}
+            }
+          },
+          {
+            type: "context", 
+            elements: [{ 
+              type: "plain_text",
+              emoji: true,
+              text: ${v[2].length}
+            }]
+          },`;
+  });
+  
 app.post("/", urlencodedParser, function(req, res) {
   res.status(200).end()
   var reqBody = req.body;
   console.log(reqBody);
-  first_people = [];
-  second_people = [];
-  third_people = [];
   var responseURL = reqBody.response_url;
-  first = reqBody.text.split(' ')[0]
-  second = reqBody.text.split(' ')[1]
-  third = reqBody.text.split(' ')[2]
   
   var message = {
     response_type: "in_channel",
@@ -45,78 +66,8 @@ app.post("/", urlencodedParser, function(req, res) {
       },
       {
         type: "divider"
-      },
-      {
-        type: "section",
-        text: {
-          type: "mrkdwn",
-          text: first
-        },
-        accessory: {
-          type: "button",
-          text: {
-            type: "plain_text",
-            emoji: true,
-            text: "Vote"
-          },
-          value: "vote_for_one"
-        }
-      },
-      {
-        type: "context",
-        elements: [{
-          type: "plain_text",
-          emoji: true,
-          text: first_people.length + " votes"
-        }]
-      },
-      {
-        type: "section",
-        text: {
-          type: "mrkdwn",
-          text: second
-        },
-        accessory: {
-          type: "button",
-          text: {
-            type: "plain_text",
-            emoji: true,
-            text: "Vote"
-          },
-          value: "vote_for_two"
-        }
-      },
-      {
-        type: "context",
-        elements: [{
-          type: "plain_text",
-          emoji: true,
-          text: second_people.length + " votes"
-        }]
-      },
-      {
-        type: "section",
-        text: {
-          type: "mrkdwn",
-          text: third
-        },
-        accessory: {
-          type: "button",
-          text: {
-            type: "plain_text",
-            emoji: true,
-            text: "Vote"
-          },
-          value: "vote_for_three"
-        }
-      },
-      {
-        type: "context",
-        elements: [{
-          type: "mrkdwn",
-          text: third_people.length + " votes"
-        }]
-      },
+      }, 
+      restaurant_array_html,
       {
         type: "divider"
       },
@@ -136,7 +87,6 @@ app.post("/", urlencodedParser, function(req, res) {
       }
     ]
   };
-
   sendMessageToSlackResponseURL(responseURL, message);
 });
 
@@ -144,8 +94,6 @@ app.post("/", urlencodedParser, function(req, res) {
 app.post("/actions", urlencodedParser, (req, res) => {
   res.status(200).end(); // best practice to respond with 200 status
   var pay_load = JSON.parse(req.body.payload); // parse URL-encoded payload JSON string
-  console.log(pay_load);
-  console.log(pay_load.actions[0]['value'])
   var value = pay_load.actions[0]['value'];
   if (value == "Delete") {
     deletePoll(pay_load);
@@ -175,7 +123,6 @@ function sendMessageToSlackResponseURL(responseURL, JSONmessage) {
     json: JSONmessage
   };
   request(postOptions, (error, response, body) => {
-    
   });
 }
 
@@ -199,109 +146,37 @@ function deletePoll(e){
 function update_message(e){
   response_url = e.response_url;
   update_array(e.user['username'], e.actions[0]['value'])
-  console.log(first_people)
-  console.log(second_people)
-  console.log(third_people)
   var messages = [
     {
-      "type": "section",
-      "text": {
-        "type": "mrkdwn",
-        "text": "*오늘 뭐먹지?* Poll by <fakeLink.toUser.com|WooBottle>"
-      }
-    },
-    {
-      "type": "divider"
-    },
-    {
-      "type": "section",
-      "text": {
-        "type": "mrkdwn",
-        "text": first
+      type: "section",
+      text: {
+        type: "mrkdwn",
+        text: "*오늘 뭐먹지?* Poll by <fakeLink.toUser.com|WooBottle>",
       },
-      "accessory": {
-        "type": "button",
-        "text": {
-          "type": "plain_text",
-          "emoji": true,
-          "text": "Vote"
-        },
-        "value": "vote_for_one"
-      }
     },
     {
-      "type": "context",
-      "elements": [{
-        "type": "plain_text",
-        "emoji": true,
-        "text": first_people.length + " votes"
-      }]
+      type: "divider",
+    },
+    restaurant_array_html,
+    {
+      type: "divider",
     },
     {
-      "type": "section",
-      "text": {
-        "type": "mrkdwn",
-        "text": second
-      },
-      "accessory": {
-        "type": "button",
-        "text": {
-          "type": "plain_text",
-          "emoji": true,
-          "text": "Vote"
-        },
-        "value": "vote_for_two"
-      }
-    },
-    {
-      "type": "context",
-      "elements": [{
-        "type": "plain_text",
-        "emoji": true,
-        "text": second_people.length + " votes"
-      }]
-    },
-    {
-      "type": "section",
-      "text": {
-        "type": "mrkdwn",
-        "text": third
-      },
-      "accessory": {
-        "type": "button",
-        "text": {
-          "type": "plain_text",
-          "emoji": true,
-          "text": "Vote"
-        },
-        "value": "vote_for_three"
-      }
-    },
-    {
-      "type": "context",
-      "elements": [{
-        "type": "mrkdwn",
-        "text": third_people.length + " votes"
-      }]
-    },
-    {
-      "type": "divider"
-    },
-    {
-      "type": "actions",
-      "elements": [{
-          "type": "button",
-          "text": {
-            "type": "plain_text",
-            "emoji": true,
-            "text": "항목추가하기(예정)"
+      type: "actions",
+      elements: [
+        {
+          type: "button",
+          text: {
+            type: "plain_text",
+            emoji: true,
+            text: "항목추가하기(예정)",
           },
-          "style": "primary",
-          "value": "Add"
-        }
-      ]
-    }
-  ]
+          style: "primary",
+          value: "Add",
+        },
+      ],
+    },
+  ];
   var options = {
     uri: response_url,
     method: 'POST',
@@ -320,20 +195,13 @@ function update_message(e){
 }
 
 function update_array(value, el){
-  if(el == 'vote_for_one'){
-    console.log(el);
-    console.log("----------");
-    console.log(value)
-    first_people.push(value);
-    console.log(first_people)
-    first_people = filter_array(first_people);
-  }else if(el == 'vote_for_two'){
-    second_people.push(value);
-    second_people = filter_array(second_people);
+  let valueIndex = restaurant_array[el][2].indexOf(value);
+  if(valueIndex == -1){
+    restaurant_array[el][2].push(value);
   }else{
-    third_people.push(value);
-    third_people = filter_array(third_people);
+    restaurant_array[el][2].splice(valueIndex, 1);
   }
+  restaurant_array[el][2] = filter_array(restaurant_array[el][2]);
 }
 
 function filter_array(array){
