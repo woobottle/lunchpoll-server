@@ -67,7 +67,7 @@ app.post("/", urlencodedParser, function(req, res) {
       {
         type: "divider"
       }, 
-      restaurant_array_html,
+      JSON.stringify(restaurant_array_html),
       {
         type: "divider"
       },
@@ -123,11 +123,11 @@ function sendMessageToSlackResponseURL(responseURL, JSONmessage) {
     json: JSONmessage
   };
   request(postOptions, (error, response, body) => {
-    console.log(error);
+    console.log("error" + error);
     console.log("----------");
-    console.log(response);
+    console.log("response" + response);
     console.log("----------");
-    console.log(body);
+    console.log("body" + body);
     console.log("----------");
   });
 }
