@@ -21,13 +21,13 @@ var restaurant_array = [["쿠시라쿠", urlencode("쿠시라쿠"), []], ["맥�
 var naver_url_head = "nmap://search?query=";
 var naver_url_tail = "&appname=naver-map-practice";
 
-var restaurant_array_html = "" + restaurant_array.map(function(v,i){
-  return `{ 
+var restaurant_array_html = restaurant_array.map(function(v,i){
+  return {
             type: "section",
             text: {
               type: "mrkdwn",
-              text: ${[v[0]]}(${naver_url_head}${v[1]}${naver_url_tail})
-          }, 
+              text: "[" + v[0] + "]" + (naver_url_head + v[1] + naver_url_tail)
+            }, 
             accessory: { 
               type: "button", 
               text: { 
@@ -35,19 +35,51 @@ var restaurant_array_html = "" + restaurant_array.map(function(v,i){
                 emoji: true, 
                 text: "투표" 
               },
-              value: ${i}
-            }
-          },
-          {
+              value: i
+            },
             type: "context", 
             elements: [{ 
               type: "plain_text",
               emoji: true,
-              text: ${v[2].length}
+              text: v[2].length
             }]
-          },`;
+          }
   });
-  
+
+var message = {
+  response_type: "in_channel",
+  blocks: [{
+      type: "section",
+      text: {
+        type: "mrkdwn",
+        text: "*오늘 뭐먹지?* Poll by <fakeLink.toUser.com|WooBottle>"
+      }
+    },
+    {
+      type: "divider"
+    },
+    restaurant_array_html,
+    {
+      type: "divider"
+    },
+    {
+      type: "actions",
+      elements: [{
+        type: "button",
+        text: {
+          type: "plain_text",
+          emoji: true,
+          text: "항목추가하기(예정)"
+        },
+        style: "primary",
+        value: "Add"
+      }]
+    }
+  ]
+};
+
+console.log(message);
+
 app.post("/", urlencodedParser, function(req, res) {
   res.status(200).end()
   var reqBody = req.body;
@@ -67,7 +99,7 @@ app.post("/", urlencodedParser, function(req, res) {
       {
         type: "divider"
       }, 
-      JSON.stringify(restaurant_array_html),
+      restaurant_array_html,
       {
         type: "divider"
       },
