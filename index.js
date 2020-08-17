@@ -123,6 +123,12 @@ function sendMessageToSlackResponseURL(responseURL, JSONmessage) {
     json: JSONmessage
   };
   request(postOptions, (error, response, body) => {
+    console.log(error);
+    console.log("----------");
+    console.log(response);
+    console.log("----------");
+    console.log(body);
+    console.log("----------");
   });
 }
 
