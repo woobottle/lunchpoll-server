@@ -222,7 +222,7 @@ function update_message(e){
     {
       type: "divider",
     },
-    restaurant_array_html,
+    ...combined_restaurant_array,
     {
       type: "divider",
     },
