@@ -73,40 +73,6 @@ function combine(combined_restaurant_array){
 
 combine(combined_restaurant_array);
 
-var message = {
-  response_type: "in_channel",
-  blocks: [{
-      type: "section",
-      text: {
-        type: "mrkdwn",
-        text: "*오늘 뭐먹지?* Poll by <fakeLink.toUser.com|WooBottle>"
-      }
-    },
-    {
-      type: "divider"
-    },
-    ...combined_restaurant_array,
-    {
-      type: "divider"
-    },
-    {
-      type: "actions",
-      elements: [{
-        type: "button",
-        text: {
-          type: "plain_text",
-          emoji: true,
-          text: "항목추가하기(예정)"
-        },
-        style: "primary",
-        value: "Add"
-      }]
-    }
-  ]
-};
-
-console.log(message);
-
 app.post("/", urlencodedParser, function(req, res) {
   res.status(200).end()
   var reqBody = req.body;
@@ -126,7 +92,7 @@ app.post("/", urlencodedParser, function(req, res) {
       {
         type: "divider"
       }, 
-      restaurant_array_html,
+      ...combined_restaurant_array,
       {
         type: "divider"
       },
