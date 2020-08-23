@@ -186,6 +186,7 @@ function deletePoll(e){
 
 function update_message(e){
   response_url = e.response_url;
+  console.log(e);
   update_array(e.user['username'], e.actions[0]['value'])
   var messages = createMessage();
   var options = {
