@@ -22,6 +22,11 @@ var restaurant_array = [["쿠시라쿠", urlencode("쿠시라쿠"), []], ["맥�
 var naver_url_head = "nmap://search?query=";
 var naver_url_tail = "&appname=naver-map-practice";
 
+function flatArray(array) {
+  let s;
+  return array.flat();
+}
+
 var createMessage = function(){
   let restaurant_array_json_section = restaurant_array.map(function (v, i) {
     return {
@@ -48,7 +53,7 @@ var createMessage = function(){
       elements: [{
         type: "plain_text",
         emoji: true,
-        text: v[2].flat()
+        text: flatArray(v[2])
       }]
     };
   });
