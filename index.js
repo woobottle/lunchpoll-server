@@ -148,6 +148,7 @@ app.post("/", urlencodedParser, function(req, res) {
       }
     ]
   };
+  debugger;
   sendMessageToSlackResponseURL(responseURL, message);
 });
 

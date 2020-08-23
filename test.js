@@ -142,6 +142,110 @@ app.post("/", urlencodedParser, function (req, res) {
   sendMessageToSlackResponseURL(responseURL, message);
 });
 
+var message = {
+  response_type: "in_channel",
+  blocks: [{
+      type: "section",
+      text: {
+        type: "mrkdwn",
+        text: "*오늘 뭐먹지?* Poll by <fakeLink.toUser.com|WooBottle>"
+      }
+    },
+    {
+      type: "divider"
+    },
+    {
+      type: "section",
+      text: {
+        type: "mrkdwn",
+        text: first
+      },
+      accessory: {
+        type: "button",
+        text: {
+          type: "plain_text",
+          emoji: true,
+          text: "Vote"
+        },
+        value: "vote_for_one"
+      }
+    },
+    {
+      type: "context",
+      elements: [{
+        type: "plain_text",
+        emoji: true,
+        text: first_people.length + " votes"
+      }]
+    },
+    {
+      type: "section",
+      text: {
+        type: "mrkdwn",
+        text: second
+      },
+      accessory: {
+        type: "button",
+        text: {
+          type: "plain_text",
+          emoji: true,
+          text: "Vote"
+        },
+        value: "vote_for_two"
+      }
+    },
+    {
+      type: "context",
+      elements: [{
+        type: "plain_text",
+        emoji: true,
+        text: second_people.length + " votes"
+      }]
+    },
+    {
+      type: "section",
+      text: {
+        type: "mrkdwn",
+        text: third
+      },
+      accessory: {
+        type: "button",
+        text: {
+          type: "plain_text",
+          emoji: true,
+          text: "Vote"
+        },
+        value: "vote_for_three"
+      }
+    },
+    {
+      type: "context",
+      elements: [{
+        type: "mrkdwn",
+        text: third_people.length + " votes"
+      }]
+    },
+    {
+      type: "divider"
+    },
+    {
+      type: "actions",
+      elements: [{
+        type: "button",
+        text: {
+          type: "plain_text",
+          emoji: true,
+          text: "항목추가하기(예정)"
+        },
+        style: "primary",
+        value: "Add"
+      }]
+    }
+  ]
+};
+
+console.log(message);
+
 
 app.post("/actions", urlencodedParser, (req, res) => {
   res.status(200).end(); // best practice to respond with 200 status
