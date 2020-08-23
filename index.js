@@ -23,8 +23,9 @@ var naver_url_head = "nmap://search?query=";
 var naver_url_tail = "&appname=naver-map-practice";
 
 function flatArray(array) {
-  let s;
-  return array.flat();
+  let s = "";
+  array.map((v)=> {s = s.concat(v + " ")})
+  return s;
 }
 
 var createMessage = function(){
