@@ -12,9 +12,6 @@ app.set('view engine', 'jade');
 app.set('views', './views');
 app.use(express.static('public'));
 
-first_people = [];
-second_people = [];
-third_people = [];
 var restaurant_array = [["쿠시라쿠", urlencode("쿠시라쿠"), []], ["맥도날드", urlencode("신사 맥도날드"), []], ["브루클린버거", urlencode("브루클린버거"), []], 
                     ["두부공작소", urlencode("두부공작소"), []], ["소로길", urlencode("소로길"), []], ["동남아식당", urlencode("동남아식당"), []], 
                     ["무적의 돈까스", urlencode("무적의 돈까스"), []], ["장수 설렁탕", urlencode("장수 설렁탕"), []], ["우정식당", urlencode("우정식당"), []],
@@ -23,8 +20,8 @@ var naver_url_head = "nmap://search?query=";
 var naver_url_tail = "&appname=naver-map-practice";
 
 function flatArray(array) {
-  let s = "투표인원 : ";
-  array.map((v)=> {s = s.concat(v + " ")})
+  let s = " ";
+  array.map((v)=> {s = s.concat(""+v + " ")})
   return s.toString();
 }
 
@@ -97,16 +94,28 @@ var createMessage = function(){
         },
         {
           type: "actions",
-          elements: [{
-            type: "button",
-            text: {
-              type: "plain_text",
-              emoji: true,
-              text: "항목추가하기(예정)"
+          elements: [
+            {
+              type: "button",
+              text: {
+                type: "plain_text",
+                emoji: true,
+                text: "항목추가하기(예정)"
+              },
+              style: "primary",
+              value: "Add"
             },
-            style: "primary",
-            value: "Add"
-          }]
+            {
+              type: "button",
+              text: {
+                type: "plain_text",
+                emoji: true,
+                text: "삭제"
+              },
+              style: "danger",
+              value: "Delete"
+            },
+          ]
         }
       ]
   };
@@ -119,7 +128,7 @@ createMessage();
 app.post("/", urlencodedParser, function(req, res) {
   res.status(200).end()
   var reqBody = req.body;
-  console.log(reqBody);
+  console.log("text : " + reqBody.text);
   var responseURL = reqBody.response_url;
   
   var message = createMessage();
@@ -158,12 +167,12 @@ function sendMessageToSlackResponseURL(responseURL, JSONmessage) {
     json: JSONmessage
   };
   request(postOptions, (error, response, body) => {
-    console.log("error : " + error);
-    console.log("----------");
-    console.log("response : " + response);
-    console.log("----------");
-    console.log("body : " + body);
-    console.log("----------");
+    // console.log("error : " + error);
+    // console.log("----------");
+    // console.log("response : " + response);
+    // console.log("----------");
+    // console.log("body : " + body);
+    // console.log("----------");
   });
 }
 
@@ -180,13 +189,13 @@ function deletePoll(e){
     }
   };
   request(options, (error, response, body) => {
-    console.log(body);
+    // console.log(body);
   });
 }
 
 function update_message(e){
   response_url = e.response_url;
-  console.log(e);
+  // console.log(e);
   update_array(e.user['username'], e.actions[0]['value'])
   var messages = createMessage();
   var options = {
