@@ -53,8 +53,6 @@ var createMessage = function(){
     };
   });
 
-  // console.log(restaurant_array_json_context);
-
   let combined_restaurant_array = [];
 
   function combine(combined_restaurant_array) {
@@ -119,8 +117,6 @@ app.post("/", urlencodedParser, function(req, res) {
   var message = createMessage();
   sendMessageToSlackResponseURL(responseURL, message);
 });
-
-console.log(createMessage());
 
 app.post("/actions", urlencodedParser, (req, res) => {
   res.status(200).end(); // best practice to respond with 200 status
@@ -193,7 +189,7 @@ function update_message(e){
     json: {
       replace_original: 'true',
       text: "hello",
-      blocks: messages
+      blocks: messages.blocks
     }
   };
   request(options, (error, response, body) => {
