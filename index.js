@@ -25,7 +25,7 @@ var naver_url_tail = "&appname=naver-map-practice";
 function flatArray(array) {
   let s = "";
   array.map((v)=> {s = s.concat(v + " ")})
-  return s;
+  return s.toString();
 }
 
 var createMessage = function(){
