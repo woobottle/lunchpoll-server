@@ -23,7 +23,7 @@ var naver_url_head = "nmap://search?query=";
 var naver_url_tail = "&appname=naver-map-practice";
 
 function flatArray(array) {
-  let s = "";
+  let s = "투표인원 : ";
   array.map((v)=> {s = s.concat(v + " ")})
   return s.toString();
 }
@@ -54,7 +54,7 @@ var createMessage = function(){
       elements: [{
         type: "plain_text",
         emoji: true,
-        text: v[2].length.toString()
+        text: flatArray(v[2])
       }]
     };
   });
@@ -113,6 +113,8 @@ var createMessage = function(){
 
   return message;
 }
+
+createMessage();
 
 app.post("/", urlencodedParser, function(req, res) {
   res.status(200).end()
