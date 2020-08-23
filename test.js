@@ -245,6 +245,7 @@ var message = {
 };
 
 console.log(message);
+console.log(message.blocks);
 
 
 app.post("/actions", urlencodedParser, (req, res) => {

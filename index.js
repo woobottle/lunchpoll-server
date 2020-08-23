@@ -36,7 +36,7 @@ var restaurant_array_json_section = restaurant_array.map(function(v,i){
                 emoji: true, 
                 text: "투표" 
               },
-              value: i
+              value: i.toString()
             },
         }
 });
@@ -108,7 +108,7 @@ var message = {
 };
 
 console.log(message);
-
+console.log(message.blocks);
 app.post("/", urlencodedParser, function(req, res) {
   res.status(200).end()
   var reqBody = req.body;
@@ -148,7 +148,6 @@ app.post("/", urlencodedParser, function(req, res) {
       }
     ]
   };
-  debugger;
   sendMessageToSlackResponseURL(responseURL, message);
 });
 
