@@ -27,7 +27,7 @@ var restaurant_array_json_section = restaurant_array.map(function(v,i){
             type: "section",
             text: {
               type: "mrkdwn",
-              text: "[" + v[0] + "]" + "(" + naver_url_head + v[1] + naver_url_tail + ")"
+              text: "*<" + naver_url_head + v[1] + naver_url_tail + "|" + v[0] + ">*"
             }, 
             accessory: { 
               type: "button", 
