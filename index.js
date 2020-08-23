@@ -73,6 +73,42 @@ function combine(combined_restaurant_array){
 
 combine(combined_restaurant_array);
 
+var message = {
+  response_type: "in_channel",
+  blocks: [
+    {
+      type: "section",
+      text: {
+        type: "mrkdwn",
+        text: "*오늘 뭐먹지?* Poll by <fakeLink.toUser.com|WooBottle>"
+      }
+    },
+    {
+      type: "divider"
+    },
+    ...combined_restaurant_array,
+    {
+      type: "divider"
+    },
+    {
+      type: "actions",
+      elements: [{
+        type: "button",
+        text: {
+          type: "plain_text",
+          emoji: true,
+          text: "항목추가하기(예정)"
+        },
+        style: "primary",
+        value: "Add"
+      }
+      ]
+    }
+  ]
+};
+
+console.log(message);
+
 app.post("/", urlencodedParser, function(req, res) {
   res.status(200).end()
   var reqBody = req.body;
@@ -145,14 +181,14 @@ function sendMessageToSlackResponseURL(responseURL, JSONmessage) {
     headers: {
       "Content-type": "application/json"
     },
-    json: JSONmessage
+    json: "123"
   };
   request(postOptions, (error, response, body) => {
-    console.log("error" + error);
+    console.log("error : " + error);
     console.log("----------");
-    console.log("response" + response);
+    console.log("response : " + response);
     console.log("----------");
-    console.log("body" + body);
+    console.log("body : " + body);
     console.log("----------");
   });
 }
