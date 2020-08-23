@@ -37,7 +37,7 @@ var restaurant_array_json_section = restaurant_array.map(function(v,i){
                 text: "투표" 
               },
               value: i
-            }
+            },
         }
 });
   
