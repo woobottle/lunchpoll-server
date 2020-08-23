@@ -50,7 +50,7 @@ var createMessage = function(){
       elements: [{
         type: "plain_text",
         emoji: true,
-        text: ...v[2]
+        text: v[2].flat()
       }]
     };
   });
