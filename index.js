@@ -47,7 +47,7 @@ var restaurant_array_json_context = restaurant_array.map(function (v, i) {
     elements: [{ 
       type: "plain_text",
       emoji: true,
-      text: v[2].length
+      text: v[2].length.toString()
     }]
   };
 });
