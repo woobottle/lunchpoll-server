@@ -22,119 +22,78 @@ var restaurant_array = [["쿠시라쿠", urlencode("쿠시라쿠"), []], ["맥�
 var naver_url_head = "nmap://search?query=";
 var naver_url_tail = "&appname=naver-map-practice";
 
-var restaurant_array_json_section = restaurant_array.map(function(v,i){
-  return { 
-            type: "section",
-            text: {
-              type: "mrkdwn",
-              text: "*<" + naver_url_head + v[1] + naver_url_tail + "|" + v[0] + ">*"
-            }, 
-            accessory: { 
-              type: "button", 
-              text: { 
-                type: "plain_text", 
-                emoji: true, 
-                text: "투표" 
-              },
-              value: i.toString()
-            },
-        }
-});
-  
-var restaurant_array_json_context = restaurant_array.map(function (v, i) {
-  return {
-    type: "context", 
-    elements: [{ 
-      type: "plain_text",
-      emoji: true,
-      text: v[2].length.toString()
-    }]
-  };
-});
-
-// console.log(restaurant_array_json_context);
-
-var combined_restaurant_array = [];
-
-function combine(combined_restaurant_array){
-  for (let i = 0; ; i++) {
-    if(i/2 < restaurant_array_json_context.length){
-      let index = Math.floor(i/2);
-      if (i % 2 == 0) {
-        combined_restaurant_array[i] = restaurant_array_json_section[index];
-      } else {
-        combined_restaurant_array[i] = restaurant_array_json_context[index];
-      }
-    }else{
-      break;
-    }
-  }; 
-}
-
-combine(combined_restaurant_array);
-
-var message = {
-  response_type: "in_channel",
-  blocks: [
-    {
+var createMessage = function(){
+  let restaurant_array_json_section = restaurant_array.map(function (v, i) {
+    return {
       type: "section",
       text: {
         type: "mrkdwn",
-        text: "*오늘 뭐먹지?* Poll by <fakeLink.toUser.com|WooBottle>"
-      }
-    },
-    {
-      type: "divider"
-    },
-    ...combined_restaurant_array,
-    {
-      type: "divider"
-    },
-    {
-      type: "actions",
-      elements: [{
+        text: "*<" + naver_url_head + v[1] + naver_url_tail + "|" + v[0] + ">*"
+      },
+      accessory: {
         type: "button",
         text: {
           type: "plain_text",
           emoji: true,
-          text: "항목추가하기(예정)"
+          text: "투표"
         },
-        style: "primary",
-        value: "Add"
-      }
-      ]
+        value: i.toString()
+      },
     }
-  ]
-};
+  });
 
-console.log(message);
-console.log(message.blocks);
-app.post("/", urlencodedParser, function(req, res) {
-  res.status(200).end()
-  var reqBody = req.body;
-  console.log(reqBody);
-  var responseURL = reqBody.response_url;
-  
-  var message = {
-    response_type: "in_channel",
-    blocks: [
-      {
-        type: "section",
-        text: {
-          type: "mrkdwn",
-          text: "*오늘 뭐먹지?* Poll by <fakeLink.toUser.com|WooBottle>"
+  let restaurant_array_json_context = restaurant_array.map(function (v, i) {
+    return {
+      type: "context",
+      elements: [{
+        type: "plain_text",
+        emoji: true,
+        text: v[2].length.toString()
+      }]
+    };
+  });
+
+  // console.log(restaurant_array_json_context);
+
+  let combined_restaurant_array = [];
+
+  function combine(combined_restaurant_array) {
+    for (let i = 0;; i++) {
+      if (i / 2 < restaurant_array_json_context.length) {
+        let index = Math.floor(i / 2);
+        if (i % 2 == 0) {
+          combined_restaurant_array[i] = restaurant_array_json_section[index];
+        } else {
+          combined_restaurant_array[i] = restaurant_array_json_context[index];
         }
-      },
-      {
-        type: "divider"
-      }, 
-      ...combined_restaurant_array,
-      {
-        type: "divider"
-      },
-      {
-        type: "actions",
-        elements: [{
+      } else {
+        break;
+      }
+    };
+  }
+
+  combine(combined_restaurant_array);
+  
+  let message =
+    {
+      response_type: "in_channel",
+      blocks: [{
+          type: "section",
+          text: {
+            type: "mrkdwn",
+            text: "*오늘 뭐먹지?* Poll by <fakeLink.toUser.com|WooBottle>"
+          }
+        },
+        {
+          type: "divider"
+        },
+        ...combined_restaurant_array,
+        {
+          type: "divider"
+        },
+        {
+          type: "actions",
+          elements: [{
             type: "button",
             text: {
               type: "plain_text",
@@ -143,14 +102,25 @@ app.post("/", urlencodedParser, function(req, res) {
             },
             style: "primary",
             value: "Add"
-          }
-        ]
-      }
-    ]
+          }]
+        }
+      ]
   };
+
+  return message;
+}
+
+app.post("/", urlencodedParser, function(req, res) {
+  res.status(200).end()
+  var reqBody = req.body;
+  console.log(reqBody);
+  var responseURL = reqBody.response_url;
+  
+  var message = createMessage();
   sendMessageToSlackResponseURL(responseURL, message);
 });
 
+console.log(createMessage());
 
 app.post("/actions", urlencodedParser, (req, res) => {
   res.status(200).end(); // best practice to respond with 200 status
@@ -213,37 +183,7 @@ function deletePoll(e){
 function update_message(e){
   response_url = e.response_url;
   update_array(e.user['username'], e.actions[0]['value'])
-  var messages = [
-    {
-      type: "section",
-      text: {
-        type: "mrkdwn",
-        text: "*오늘 뭐먹지?* Poll by <fakeLink.toUser.com|WooBottle>",
-      },
-    },
-    {
-      type: "divider",
-    },
-    ...combined_restaurant_array,
-    {
-      type: "divider",
-    },
-    {
-      type: "actions",
-      elements: [
-        {
-          type: "button",
-          text: {
-            type: "plain_text",
-            emoji: true,
-            text: "항목추가하기(예정)",
-          },
-          style: "primary",
-          value: "Add",
-        },
-      ],
-    },
-  ];
+  var messages = createMessage();
   var options = {
     uri: response_url,
     method: 'POST',
@@ -272,8 +212,6 @@ function update_array(value, el){
 }
 
 function filter_array(array){
-  console.log(array)
   filtered_array = Array.from(new Set(array))
-  console.log(filtered_array)
   return filtered_array
 }
